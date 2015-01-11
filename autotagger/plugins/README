@@ -1,0 +1,8 @@
+tag plugins may tag a single given file ,e.g. read exif tags or result in
+tagging other files ,e.g. reading tvshow.nfo.
+
+tag plugins may also look for the original file for auxilary infos (like
+searching for a given .mkv for the same name .nfo .
+
+plugins may listen to a given mimetype or a case-insensitive filename. once
+triggered they will get the filename relative from the cwd.

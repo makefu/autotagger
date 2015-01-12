@@ -19,10 +19,10 @@ def set_lol_from_str(lol):
   logging.basicConfig(level=numeric_level)
   log.setLevel(numeric_level)
 
-def get_tagger(ts):
+def get_tagger(ts,db=None):
     ts = ts.lower()
     if ts == 'tmsu':
-        return TMSU()
+        return TMSU(db=db) if db else TMSU()
     else:
         raise AttributeError('No such tagger {}'.format(ts))
 

@@ -1,9 +1,10 @@
 #!/usr/bin/python
 """ Tag single files
-Usage: recurse_tag [-t TAGGER] [-l LOGLEVEL] <folder>
+Usage: recurse_tag [-t TAGGER [--db DATABASE]] [-l LOGLEVEL] <folder>
 
 Options:
     -t TAGGER       The tagger to be used [default: tmsu]
+    --db DATABASE   Path to the tagger database (if applicable)
     -l LOGLEVEL     The loglevel [default: info]
                     may be: debug,info,warn,error
 
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     args = docopt(__doc__)
 
     set_lol_from_str(args['-l'])
-    tagger = get_tagger(args['-t'])
+    tagger = get_tagger(args['-t'],args['--db'])
     for (path,dirs,files) in os.walk(args['<folder>']):
         for f in files:
             f = os.path.join(path,f)

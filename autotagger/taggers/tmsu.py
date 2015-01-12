@@ -1,6 +1,7 @@
 from os.path import expanduser
 import logging
 import subprocess
+from os.path import exists
 
 log=logging.getLogger('tmsu')
 class TMSU:
@@ -19,6 +20,7 @@ class TMSU:
         for orig,new in replacement.items():
             t = t.replace(orig,new)
         return t
+
     def tag(self,f,tags):
         """
         f : the file to tag
@@ -26,6 +28,9 @@ class TMSU:
         """
         if not tags:
             log.warn('no tags for file {}'.format(f))
+            return
+        if not exists(f): 
+            log.warn('{} does not exist, will not apply tags'.format(f))
             return
 
         tags = list(tags)
@@ -42,7 +47,7 @@ class TMSU:
         log.error('stderr: {}'.format(err.decode()))
 
         if ret.returncode != 0:
-            log.error('tagging failed with {}'.format(e))
+            log.error('tagging failed with retcode {}'.format(ret.returncode))
             log.error('stdout: {}'.format(out))
             log.error('stderr: {}'.format(err))
         elif not out:

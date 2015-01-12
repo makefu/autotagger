@@ -10,15 +10,27 @@ class TMSU:
     def __init__(self,db='~/.tmsu/default.db'):
         self.db=expanduser(db)
         log.debug('setting db to {}'.format(self.db))
-
+    
+    def cleanup_tag(self,t):
+        replacement={ ' ':'_',
+                      '(':'',
+                      ')':'',
+                      '/':''}
+        for orig,new in replacement.items():
+            t = t.replace(orig,new)
+        return t
     def tag(self,f,tags):
         """
         f : the file to tag
         tags: list of tags to apply
         """
+        if not tags:
+            log.warn('no tags for file {}'.format(f))
+            return
+
         tags = list(tags)
         # tags must not contain spaces ... and this in the year 2015 ...
-        tags = [str(tag).replace(' ','_').replace('(','').replace(')','') for tag in tags]
+        tags = [self.cleanup_tag(str(tag)) for tag in tags]
         log.debug('tagging {} with tags {}'.format(f,tags))
         cmd=[self.tmsu_path,'-D',self.db, 'tag',f]+tags
         log.debug('running {}'.format(' '.join(cmd)))

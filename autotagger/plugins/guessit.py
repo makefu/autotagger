@@ -27,3 +27,5 @@ def match_all(f):
 
 registry.register_mime('video/x-matroska',match_all)
 registry.register_mime('video/x-msvideo',match_all)
+# match the xbmc info
+registry.register_regex(r'\.nfo$',match_all)
